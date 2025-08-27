@@ -1,0 +1,5 @@
+mne
+mne-connectivity
+numpy
+pandas
+glhmm
