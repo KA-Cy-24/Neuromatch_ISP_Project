@@ -4,7 +4,7 @@ import subprocess
 import logging
 from pathlib import Path
 import matplotlib as mpl
-import mne
+
 ###########################################################
 # Note: This script has been mostly written by an LLM and #
 # is refined with some modifications by the author(s).    #
