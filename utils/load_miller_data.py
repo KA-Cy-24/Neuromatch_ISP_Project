@@ -1,3 +1,7 @@
+######################################
+#        Preprocessing Module        #
+######################################
+
 # Importing MNE packages
 import mne
 import requests
@@ -30,6 +34,16 @@ def download_data(url = 'https://osf.io/ksqv8/download', save_path = 'alldat.npy
 # Loading the data using MNE from the dictionary
 # Note that alldat requires transposition in order to have the shape (2, 7)
 # 7 patients, 2 experiments (01 = motor execution, 02 = motor imagery)
+def _split_into_exp(alldat, id = 0):
+    """
+    Creates experiment lists.
+    PLANNED: Transform experiment arrays into custom classes inherited from dict or list.
+    """
+    # Declaring variables to separate the two experiments
+    # assert id == 0 or id == 1, "The given ID is not included in the current set of experiments!"
+    exp_id = alldat.T[id]
+    return exp_id
+
 def _split_data_into_exp(alldat, output_mode = 0, store_brodmanns = False):
     # Declaring variables to separate the two experiments
     exp01 = alldat.T[0]
@@ -73,6 +87,20 @@ def _split_data_into_exp(alldat, output_mode = 0, store_brodmanns = False):
             num_subjects, num_channels, time_steps,
             data_exp01, data_exp02
         )
+
+# Declaring a function for compiling onset times, offset times, stimulus IDs, and events
+def _create_events_for_all(allat):
+    # Declaring variables to separate the two experiments
+    exp01 = alldat.T[0]
+    exp02 = alldat.T[1]
+
+    # Storing the dimensions for the dataset and the number of channels
+    num_subjects = exp01.shape[0]
+    num_channels = [exp01[i]['V'].shape[1] for i in range(num_subjects)]
+    time_steps = [exp01[i]['V'].shape[0] for i in range(num_subjects)]
+
+    
+
 
 # Declaring a function for creating epochs
 def _create_epochs_single_exp(rawarray_input, num_subjects, events, event_ids : dict, t_min, t_max, padding = (0, 0)) -> tuple:
